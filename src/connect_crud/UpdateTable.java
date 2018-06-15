@@ -51,7 +51,7 @@ public class UpdateTable {
         try {
             // Prepare statement
             myStmt = connection
-                    .prepareStatement("select artist, album, from records where artist=? and album=?");
+                    .prepareStatement("select artist, album from records where artist=? and album=?");
 
             myStmt.setString(1, album);
             myStmt.setString(2, artist);

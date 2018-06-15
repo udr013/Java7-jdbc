@@ -20,7 +20,7 @@ public class QueryTableData {
 
             ResultSet result = statement.executeQuery("SELECT * FROM records ");
 
-            result = statement.executeQuery("SELECT * FROM records  WHERE year_of_release =1988");
+//            result = statement.executeQuery("SELECT * FROM records  WHERE year_of_release =1988");
             ///prints com.mysql.jdbc.JDBC42ResultSet@5ce65a89
             System.out.println(result);
 
@@ -29,7 +29,7 @@ public class QueryTableData {
                         + " - " + result.getString("label"));
             }
 
-            result = statement.executeQuery("SELECT * FROM records ");
+            result = statement.executeQuery("SELECT * FROM records ");  // * == all columns
 
             while (result.next()) {
                 System.out.println(result.getInt("id") + " - " + result.getString("artist") + " - " + result.getString("album") + " - " + result.getString("year_of_release")
@@ -38,7 +38,7 @@ public class QueryTableData {
             /**
              * only can print the selected fields chosen in The SELECT statement
              */
-            result = statement.executeQuery("SELECT id,album,artist,year_of_release FROM records WHERE artist ='Jimi Hendrix' ");
+            result = statement.executeQuery("SELECT id, album, artist, year_of_release FROM records WHERE artist ='Jimi Hendrix' ");
 
             while (result.next()) {
                 System.out.println(result.getInt("id") + " - " + result.getString("artist") + " - " + result.getString("album") + " - " + result.getString("year_of_release")
@@ -69,50 +69,51 @@ public class QueryTableData {
                 System.out.println(result.getDouble(1) + " - " + result.getString(2) + " - " + result.getFloat(3));
             }
 
-//            result = statement.executeQuery("SELECT id,artist,year_of_release FROM records WHERE artist ='Bob Marley' ");
+            result = statement.executeQuery("SELECT id,artist,year_of_release FROM records WHERE artist ='Bob Marley' ");
+
 //
 //            //java.sql.SQLException: Illegal operation on empty result set.
 //            System.out.println(result.getDouble(1) + " - " + result.getString(2) + " - " + result.getFloat(3));
 
 
             System.out.println(result); //com.mysql.jdbc.JDBC42ResultSet@25f38edc
-            ResultSetMetaData resultMSD = result.getMetaData();
-            System.out.println(resultMSD); //com.mysql.jdbc.ResultSetMetaData@1a86f2f1 - Field level information: blabla
+            ResultSetMetaData resultSetMetaData = result.getMetaData();
+            System.out.println(resultSetMetaData); //com.mysql.jdbc.ResultSetMetaData@1a86f2f1 - Field level information: blabla
             System.out.println("\nDiplay resultset MetaData");
-            System.out.println("columnLabel: "+resultMSD.getColumnLabel(1)); //columnLabel: id
-            System.out.println("CatalogName: "+resultMSD.getCatalogName(1)); //CatalogName: demo
-            System.out.println("ColumnCount: "+resultMSD.getColumnCount()); //ColumnCount: 3
-            System.out.println("ColumnName: "+resultMSD.getColumnName(1)); //ColumnName: id
-            System.out.println("ColumnDisplaySize: "+resultMSD.getColumnDisplaySize(1)); //ColumnDisplaySize: 11
-            System.out.println("ColumnType: "+resultMSD.getColumnType(1)); //ColumnType: 4
-            System.out.println("ColumnClassName: "+resultMSD.getColumnClassName(1)); //ColumnClassName: java.lang.Integer
-            System.out.println("TableName: "+resultMSD.getTableName(1)); //TableName: records
-            System.out.println("ColumnTypeName: "+resultMSD.getColumnTypeName(1)); //ColumnTypeName: INT
-            System.out.println("Precision: "+resultMSD.getPrecision(1)); //Precision: 11
-            System.out.println("Scale: "+resultMSD.getScale(1)); //Scale: 0
-            System.out.println("SchemaName: "+resultMSD.getSchemaName(1)); //SchemaName:
+            System.out.println("columnLabel: "+resultSetMetaData.getColumnLabel(1)); //columnLabel: id
+            System.out.println("CatalogName: "+resultSetMetaData.getCatalogName(1)); //CatalogName: demo
+            System.out.println("ColumnCount: "+resultSetMetaData.getColumnCount()); //ColumnCount: 3
+            System.out.println("ColumnName: "+resultSetMetaData.getColumnName(1)); //ColumnName: id
+            System.out.println("ColumnDisplaySize: "+resultSetMetaData.getColumnDisplaySize(1)); //ColumnDisplaySize: 11
+            System.out.println("ColumnType: "+resultSetMetaData.getColumnType(1)); //ColumnType: 4
+            System.out.println("ColumnClassName: "+resultSetMetaData.getColumnClassName(1)); //ColumnClassName: java.lang.Integer
+            System.out.println("TableName: "+resultSetMetaData.getTableName(1)); //TableName: records
+            System.out.println("ColumnTypeName: "+resultSetMetaData.getColumnTypeName(1)); //ColumnTypeName: INT
+            System.out.println("Precision: "+resultSetMetaData.getPrecision(1)); //Precision: 11
+            System.out.println("Scale: "+resultSetMetaData.getScale(1)); //Scale: 0
+            System.out.println("SchemaName: "+resultSetMetaData.getSchemaName(1)); //SchemaName:
 
-            DatabaseMetaData dbMeta = connection.getMetaData();
+            DatabaseMetaData databaseMetaData = connection.getMetaData();
             System.out.println("\nDiplay Database MetaData");
-            System.out.println("DatabaseProductName: "+dbMeta.getDatabaseProductName());
-            System.out.println("DatabaseProductVersion: "+dbMeta.getDatabaseProductVersion());
-            System.out.println("DriverName: "+dbMeta.getDriverName());
-            System.out.println("getDriverVersion: "+dbMeta.getDriverVersion());
-            System.out.println("Catalogs: "+dbMeta.getCatalogs());
-            System.out.println("CatalogTerm: "+dbMeta.getCatalogTerm());
-            System.out.println("CatalogSeparator: "+dbMeta.getCatalogSeparator());
-            System.out.println("NumericFunctions: "+dbMeta.getNumericFunctions());
-            System.out.println("ExtraNameCharacters: "+dbMeta.getExtraNameCharacters());
-            System.out.println("IdentifierQuoteString: "+dbMeta.getIdentifierQuoteString());
-            System.out.println("URL: "+dbMeta.getURL());
-            System.out.println("getProcedureTerm: "+dbMeta.getProcedureTerm());
-            System.out.println("getSchemaTerm: "+dbMeta.getSchemaTerm());
-            System.out.println("getSearchStringEscape: "+dbMeta.getSearchStringEscape());
-            System.out.println("getSQLKeywords: "+dbMeta.getSQLKeywords());
-            System.out.println("getStringFunctions: "+dbMeta.getStringFunctions());
-            System.out.println("getSystemFunctions: "+dbMeta.getSystemFunctions());
-            System.out.println("getTimeDateFunctions: "+dbMeta.getTimeDateFunctions());
-            System.out.println("getUserName: "+dbMeta.getUserName());
+            System.out.println("DatabaseProductName: "+databaseMetaData.getDatabaseProductName());
+            System.out.println("DatabaseProductVersion: "+databaseMetaData.getDatabaseProductVersion());
+            System.out.println("DriverName: "+databaseMetaData.getDriverName());
+            System.out.println("getDriverVersion: "+databaseMetaData.getDriverVersion());
+            System.out.println("Catalogs: "+databaseMetaData.getCatalogs());
+            System.out.println("CatalogTerm: "+databaseMetaData.getCatalogTerm());
+            System.out.println("CatalogSeparator: "+databaseMetaData.getCatalogSeparator());
+            System.out.println("NumericFunctions: "+databaseMetaData.getNumericFunctions());
+            System.out.println("ExtraNameCharacters: "+databaseMetaData.getExtraNameCharacters());
+            System.out.println("IdentifierQuoteString: "+databaseMetaData.getIdentifierQuoteString());
+            System.out.println("URL: "+databaseMetaData.getURL());
+            System.out.println("getProcedureTerm: "+databaseMetaData.getProcedureTerm());
+            System.out.println("getSchemaTerm: "+databaseMetaData.getSchemaTerm());
+            System.out.println("getSearchStringEscape: "+databaseMetaData.getSearchStringEscape());
+            System.out.println("getSQLKeywords: "+databaseMetaData.getSQLKeywords());
+            System.out.println("getStringFunctions: "+databaseMetaData.getStringFunctions());
+            System.out.println("getSystemFunctions: "+databaseMetaData.getSystemFunctions());
+            System.out.println("getTimeDateFunctions: "+databaseMetaData.getTimeDateFunctions());
+            System.out.println("getUserName: "+databaseMetaData.getUserName());
 
 
 

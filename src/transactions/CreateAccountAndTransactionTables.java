@@ -28,13 +28,13 @@ public class CreateAccountAndTransactionTables {
             //int delete = statement.executeUpdate("DROP TABLE bank_account");
             //delete = statement.executeUpdate("DROP TABLE transaction");
 
-            int createAccount = statement.executeUpdate("CREATE TABLE bank_account (account_nr INT, account_name VARCHAR (1000), " +
-                    " balance DOUBLE(7,2) )");
+            int createAccount = statement.executeUpdate("CREATE TABLE if not exists bank_account (account_nr INT, account_name VARCHAR (1000), " +
+                    " balance float8)");
 
-            int createTransaction = statement.executeUpdate("CREATE TABLE transaction (id INT PRIMARY KEY, " +
+            int createTransaction = statement.executeUpdate("CREATE TABLE if not exists transaction (id INT PRIMARY KEY, " +
                     "account_nr INT, " +
                     "type VARCHAR (10), " +
-                    " amount DOUBLE(7,2)," +
+                    " amount float8," +
                     "date DATE )");
 
 

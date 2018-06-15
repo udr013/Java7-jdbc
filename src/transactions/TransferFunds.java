@@ -9,12 +9,13 @@ import java.util.Properties;
 public class TransferFunds {
 
     static Connection getConnection()throws SQLException{
-        String url ="jdbc:postgresql://localhost/demo?useSSL=false";
+        String url ="jdbc:postgresql://127.0.0.1/demo?useSSL=false";
         Properties properties = new Properties();
         properties.put("user","student");
         properties.put("password", "STUDENT");
         return DriverManager.getConnection(url,properties);
     }
+
     public static void main(String[] args) {
         Connection con = null;
         Statement stat =null;

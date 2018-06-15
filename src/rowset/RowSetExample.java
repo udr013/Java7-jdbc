@@ -18,6 +18,7 @@ public class RowSetExample {
             jdbcRowSet.setCommand("SELECT * FROM records");
             jdbcRowSet.execute();
 
+
             while (jdbcRowSet.next()){
                 System.out.print(jdbcRowSet.getString("id")+ " - ");
                 System.out.print(jdbcRowSet.getString("artist")+ " - ");

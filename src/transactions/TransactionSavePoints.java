@@ -1,18 +1,17 @@
 package transactions;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Savepoint;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Properties;
 
 public class TransactionSavePoints {
 
     public static void main(String[] args) {
         Connection connection = null;
-        Statement statement = null;
+        Statement statement;
+        Savepoint savepoint = null;
 
         try {
-            connection = TransferFunds.getConnection();
+            connection = getConnection();
 
             /**
              *  set autocommit will throw a SQLException if set to true during any transaction when you call
@@ -23,52 +22,49 @@ public class TransactionSavePoints {
             connection.setAutoCommit(false);
             statement = connection.createStatement();
 
-
-            //statements including savepoint for account 5555
-            int result = statement.executeUpdate("INSERT  INTO transaction VALUES (110,5555,'debit',2099,'2020-10-01')");
-
-            System.out.println("insert 5555: "+result);
-
-            result = statement.executeUpdate("UPDATE bank_account SET balance = balance +2099 WHERE account_nr = 5555");
+            int result = statement.executeUpdate("UPDATE bank_account SET balance = 7 WHERE account_nr = 5555");
 
             System.out.println("update 5555: "+result);
 
-            Savepoint savepoint5555 = connection.setSavepoint();
+            savepoint = connection.setSavepoint("1");
 
-            //statements including overloaded savepoint method seting name for savepoint for account 7777
-            result = statement.executeUpdate("INSERT  INTO transaction VALUES (111,7777,'debit',12099,'2020-10-01')");
-
-            System.out.println("insert 7777: "+result);
-
-            result = statement.executeUpdate("UPDATE bank_account SET balance = balance +12099 WHERE account_nr = 7777");
+            result = statement.executeUpdate("UPDATE bank_account SET balance = 8 WHERE account_nr = 7777");
 
             System.out.println("update 7777: "+result);
 
-            Savepoint savepoint7777 = connection.setSavepoint("CrSalaryFor7777");
+            savepoint = connection.setSavepoint("2");
 
-            //statements including overloaded savepoint method seting name for savepoint for account 9999
-            result = statement.executeUpdate("INSERT  INTO transaction VALUES (112,9999,'debit',5099,'2020-10-01')");
+            result = statement.executeUpdate("INSERT  INTO transaction VALUES (113,9999,'debit',5779,'2020-10-01')");
 
             System.out.println("insert 9999: "+result);
 
-            result = statement.executeUpdate("UPDATE bank_account SET balance = balance +5099 WHERE account_nr = 9999");
+            result = statement.executeUpdate("UPDATE bank_account SET balance = 'bla' WHERE account_nr = 9999");
 
             System.out.println("update 9999: "+result);
 
-            Savepoint savepoint9999 = connection.setSavepoint("CrSalaryFor9999");
+            savepoint = connection.setSavepoint("3");
 
-            //because rollback is called to 7777 9999 will not be executed
-            connection.rollback(savepoint7777);
             connection.commit();
 
         } catch (SQLException e) {
             try {
-                connection.rollback();
-                //due account 9999 doesn't exist, or id already used/exist in transactions
+                if(savepoint != null){
+                    System.out.println(savepoint.getSavepointName());
+                }
+                connection.rollback(savepoint);
                 System.out.println("rollback performed");
+                connection.commit();
             } catch (SQLException e1) {
                 System.out.println(e1);
             }
         }
+    }
+
+    static Connection getConnection()throws SQLException{
+        String url ="jdbc:postgresql://127.0.0.1/demo?useSSL=false";
+        Properties properties = new Properties();
+        properties.put("user","student");
+        properties.put("password", "STUDENT");
+        return DriverManager.getConnection(url,properties);
     }
 }
