@@ -18,13 +18,13 @@ public class RowSetExample {
             jdbcRowSet.setCommand("SELECT * FROM records");
             jdbcRowSet.execute();
 
-
             while (jdbcRowSet.next()){
-                System.out.print(jdbcRowSet.getString("id")+ " - ");
+                System.out.print(jdbcRowSet.getInt("id")+ " - ");
                 System.out.print(jdbcRowSet.getString("artist")+ " - ");
                 System.out.print(jdbcRowSet.getString("album")+ " - ");
-                System.out.print(jdbcRowSet.getString("year_of_release")+ " - ");
-                System.out.print(jdbcRowSet.getString("label")+ "\n");
+                System.out.print(jdbcRowSet.getInt("year_of_release")+ " - ");
+                System.out.print(jdbcRowSet.getString("label")+ " - ");
+                System.out.print(jdbcRowSet.getDouble("price")+ "\n");
             }
         } catch (SQLException e) {
             System.out.println(e);

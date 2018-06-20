@@ -11,7 +11,7 @@ import java.util.Properties;
 public class PreparedStatementTest {
 
     static Connection getConnection() throws SQLException {
-        String url = "jdbc:mySQL://localhost/demo?useSSL=false";
+        String url = "jdbc:postgresql://localhost/demo?useSSL=false";
         Properties properties = new Properties();
         properties.put("user", "student");
         properties.put("password", "STUDENT");
@@ -27,6 +27,7 @@ public class PreparedStatementTest {
               * when album doesn't exist
               * Note: the specified SQL statement in prepareStatement!
               * */
+             Statement statement = connection.createStatement();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM records WHERE album = 'Pauls Boutique'");
 
              ResultSet resultSet = preparedStatement.executeQuery()) {
